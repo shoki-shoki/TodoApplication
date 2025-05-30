@@ -11,11 +11,6 @@ import com.example.demo.entity.Task;
 import com.example.demo.service.TaskService;
 
 
-/**
- * Webアプリケーションのタスク関連機能を担当するControllerクラスです。
- * タスクの一覧表示、登録、変更などの機能が含まれています。
- *
- */
 @Controller
 public class TaskController {
 
@@ -25,12 +20,7 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    /**
-     * タスクの一覧を表示するメソッドです。
-     * 
-     * @param model タスク一覧をViewに渡すためのSpringのModelオブジェクト
-     * @return "task/index" - タスク一覧表示用のHTMLテンプレートのパス
-     */
+    
 	@RequestMapping(value = "/task/list", method = RequestMethod.GET)
 	public String showTask(Model model) {
 		

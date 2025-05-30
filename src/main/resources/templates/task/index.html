@@ -38,7 +38,6 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <!-- Sample Data -->
                   <tr　th:each="taskList : ${taskList}" th:object="${taskList}">
                     <th scope="row"　th:text="*{taskId}">1</th>
                     <td　th:text="*{title}">Title</td>
