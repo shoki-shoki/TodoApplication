@@ -5,9 +5,16 @@
 	
 <mapper namespace="com.example.demo.mapper.TaskMapper">
 
-<select id="findAll" resultType="com.example.demo.entity.Task">
+	<select id="findAll" resultType="com.example.demo.entity.Task">
 	SELECT * FROM task where deleteFlg=0;
 
-</select>
+	</select>
+
+    <insert id="save">
+        INSERT INTO task
+            (title, description, deadline, status,created_at,updated_at, deleteFlg)
+        VALUES
+            (#{title}, #{description}, #{deadline}, 1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,0);
+    </insert>
 
 </mapper>
