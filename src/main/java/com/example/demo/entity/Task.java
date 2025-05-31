@@ -3,100 +3,125 @@ package com.example.demo.entity;
 
 import java.time.LocalDateTime;
 
-
+/**
+ * タスクエンティティクラス
+ */
 public class Task {
+    /**
+     * タスクID（自動インクリメントされる一意の識別子）。
+     */
+    private int taskId;
 
-	private int taskId;
-	
-	private String title;
-	
-	private String description;
-	
-	private LocalDateTime deadline;
-	
-	private int  status;
-	
-	private int userId;
-	
-	private boolean deleteFlg;
-	
-	private LocalDateTime updateTime;
-	
-	private LocalDateTime createTime;
-	
+    /**
+     * タスクのタイトル。
+     */
+    private String title;
 
-	public int getTaskId() {
-		return taskId;
-	}
+    /**
+     * タスクの説明。
+     */
+    private String description;
 
-	public void setTaskId(int taskId) {
-		this.taskId = taskId;
-	}
+    /**
+     * タスクの締め切り日時。
+     */
+    private LocalDateTime deadline;
 
-	public String getTitle() {
-		return title;
-	}
+    /**
+     * タスクのステータス（例: 1 - 未着手, 2 - 作業中, 3 - 完了）。
+     */
+    private int status;
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    /**
+     * ユーザーID（タスクを所有するユーザーの識別子）。
+     */
+    private Integer userId;
 
-	public String getDescription() {
-		return description;
-	}
+    /**
+     * タスクの作成日時（デフォルトは現在の日時）。
+     */
+    private LocalDateTime createdAt;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    /**
+     * タスクの更新日時（更新時に現在の日時に自動設定）。
+     */
+    private LocalDateTime updatedAt;
 
-	public LocalDateTime getDeadline() {
-		return deadline;
-	}
+    /**
+     * 削除フラグ（タスクが削除されたかどうかを示す）。
+     */
+    private Boolean deleteFlg;
 
-	public void setDeadline(LocalDateTime deadline) {
-		this.deadline = deadline;
-	}
+    public int getTaskId() {
+        return taskId;
+    }
 
-	public int getStatus() {
-		return status;
-	}
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
 
-	public void setStatus(int status) {
-		this.status = status;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public int getUserId() {
-		return userId;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public boolean isDeleteFlg() {
-		return deleteFlg;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setDeleteFlg(boolean deleteFlg) {
-		this.deleteFlg = deleteFlg;
-	}
+    public LocalDateTime getDeadline() {
+        return deadline;
+    }
 
-	public LocalDateTime getUpdateTime() {
-		return updateTime;
-	}
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
+    }
 
-	public void setUpdateTime(LocalDateTime updateTime) {
-		this.updateTime = updateTime;
-	}
+    public int getStatus() {
+        return status;
+    }
 
-	public LocalDateTime getCreateTime() {
-		return createTime;
-	}
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
-	public void setCreateTime(LocalDateTime createTime) {
-		this.createTime = createTime;
-	}
-	
-	
+    public Integer getUserId() {
+        return userId;
+    }
 
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Boolean getDeleteFlg() {
+        return deleteFlg;
+    }
+
+    public void setDeleteFlg(Boolean deleteFlg) {
+        this.deleteFlg = deleteFlg;
+    }
 }
+

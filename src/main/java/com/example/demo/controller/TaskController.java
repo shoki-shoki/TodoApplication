@@ -70,7 +70,7 @@ public class TaskController {
 	 * @param model タスク一覧をViewに渡すためのSpringのModelオブジェクト
 	 * @return "task/confirm" - タスク確認画面のHTMLテンプレートのパス
 	 */
-	@GetMapping(value = "/task/confirm")
+	@PostMapping(value = "/task/confirm")
 	public String showConfirmForm(@Validated TaskForm taskForm, BindingResult bindingResult, Model model) {
 		
 		// バリデーションチェックでエラーがある場合は変更画面に戻る
@@ -114,7 +114,7 @@ public class TaskController {
 	 * 
 	 * @return "task/complete" - タスク完了画面のHTMLテンプレートのパス
 	 */
-    @GetMapping("/task/complete")
+    @PostMapping("/task/complete")
     public String showCompletePage() {
         return "task/complete";
     }
