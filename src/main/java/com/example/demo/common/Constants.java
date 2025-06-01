@@ -1,4 +1,3 @@
-
 package com.example.demo.common;
 
 /**
@@ -17,3 +16,4 @@ public class Constants {
     public static final String ILLEGALARGUMENTEXCEPTION_ERROR = "タスクIDは正の整数である必要があります。";
 
 }
+

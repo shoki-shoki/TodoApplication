@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Task;
@@ -63,6 +64,24 @@ public class TaskController {
 	}
 	
 	/**
+	 * タスクの変更画面を表示するメソッドです。
+	 * 
+	 * @param taskId タスクのID
+	 * @param model タスク一覧をViewに渡すためのSpringのModelオブジェクト
+	 * @return "task/edit" - タスク変更画面のHTMLテンプレートのパス
+	 */
+	@GetMapping(value = "/task/edit")
+	public String showEditForm(@RequestParam("taskId") int taskId,Model model) {
+		
+	    // タスクIDに基づいてタスクを取得
+		TaskForm taskForm = taskService.getTask(taskId);
+		
+		model.addAttribute("taskForm", taskForm);
+		return "task/edit";
+	}
+	
+	
+	/**
 	 * タスクの確認画面を表示するメソッドです。
 	 * 
 	 * @param taskForm タスクのフォームデータ
@@ -70,7 +89,7 @@ public class TaskController {
 	 * @param model タスク一覧をViewに渡すためのSpringのModelオブジェクト
 	 * @return "task/confirm" - タスク確認画面のHTMLテンプレートのパス
 	 */
-	@PostMapping(value = "/task/confirm")
+	@GetMapping(value = "/task/confirm")
 	public String showConfirmForm(@Validated TaskForm taskForm, BindingResult bindingResult, Model model) {
 		
 		// バリデーションチェックでエラーがある場合は変更画面に戻る
@@ -114,11 +133,60 @@ public class TaskController {
 	 * 
 	 * @return "task/complete" - タスク完了画面のHTMLテンプレートのパス
 	 */
-    @PostMapping("/task/complete")
+    @GetMapping("/task/complete")
     public String showCompletePage() {
         return "task/complete";
     }
+    
+	/**
+	 * タスクの削除確認画面を表示するメソッドです。
+	 * 
+	 * @param taskForm タスクのフォームデータ
+	 * @param model タスク一覧をViewに渡すためのSpringのModelオブジェクト
+	 * @return "task/confirm" - タスク確認画面のHTMLテンプレートのパス
+	 */
+	@GetMapping(value = "/task/delete")
+	public String showDeleteForm(@RequestParam("taskId") int taskId, Model model) {
+		
+	    // タスクIDに基づいてタスクを取得
+		TaskForm taskForm = taskService.getTask(taskId);
+				
+		model.addAttribute("taskForm", taskForm);
+		return "task/deleteConfirm";
+	}
 	
+	/**
+	 * タスクを削除するメソッドです。
+	 * 
+	 * @param taskForm タスクのフォームデータ
+	 * @param bindingResult バリデーション結果を保持するオブジェクト
+	 * @param redirectAttributes リダイレクト時に属性を渡すためのSpringのRedirectAttributesオブジェクト
+	 * @param model タスク一覧をViewに渡すためのSpringのModelオブジェクト
+	 * @return "redirect:/task/complete" - タスク確認画面へのリダイレクト
+	 */
+	@PostMapping(value = "/task/delete")
+	public String deleteTask(@RequestParam("taskId") int taskId, RedirectAttributes redirectAttributes,Model model) {
+		
+		//保存処理
+		String completeMessage =taskService.delete(taskId);
+		
+		//redirect先に値を渡す
+		redirectAttributes.addFlashAttribute("completeMessage", completeMessage);
+		
+		return "redirect:/task/complete";
+	}
 	
+    /**
+     * タスクの確認画面から変更画面に戻るメソッドです。
+     * 
+     * @param taskForm タスクのフォームデータ
+     * @param model タスク一覧をViewに渡すためのSpringのModelオブジェクト
+     * @return "task/edit" - タスク変更画面のHTMLテンプレートのパス
+     */
+    @GetMapping("/task/back")
+    public String backToEditPage(TaskForm taskForm,Model model) {
+    	model.addAttribute("taskForm", taskForm);
+    	return "task/edit";
+    }
 	
 }
