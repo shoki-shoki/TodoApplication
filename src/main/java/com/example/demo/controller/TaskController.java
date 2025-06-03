@@ -2,16 +2,16 @@ package com.example.demo.controller;
 
 import java.util.List;
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.bind.annotation.PathVariable;
-
 
 import com.example.demo.entity.Task;
 import com.example.demo.form.TaskForm;
@@ -38,13 +38,15 @@ public class TaskController {
      * @param model タスク一覧をViewに渡すためのSpringのModelオブジェクト
      * @return "task/index" - タスク一覧表示用のHTMLテンプレートのパス
      */
-    @GetMapping("/task/list")
-    public String showTask(Model model) {
-        List<Task> taskList = taskService.findAll();
-        model.addAttribute("taskList", taskList);
-        return "task/index";
-    }
-
+	@RequestMapping(value = "/task/list", method = RequestMethod.GET)
+	public String showTask(Model model) {
+		
+		//タスクの一覧を取得
+		List<Task> taskList = taskService.findAll();		
+		model.addAttribute("taskList", taskList);
+		
+		return "task/index";
+	}
 	
 	/**
 	 * タスクの新規登録画面を表示するメソッドです。
@@ -69,7 +71,7 @@ public class TaskController {
 	 * @return "task/edit" - タスク変更画面のHTMLテンプレートのパス
 	 */
 	@GetMapping(value = "/task/edit")
-	public String showEditForm(@PathVariable int taskId,Model model) {
+	public String showEditForm(@RequestParam("taskId") int taskId,Model model) {
 		
 	    // タスクIDに基づいてタスクを取得
 		TaskForm taskForm = taskService.getTask(taskId);
@@ -144,7 +146,7 @@ public class TaskController {
 	 * @return "task/confirm" - タスク確認画面のHTMLテンプレートのパス
 	 */
 	@GetMapping(value = "/task/delete")
-	public String showDeleteForm(@PathVariable int taskId, Model model) {
+	public String showDeleteForm(@RequestParam("taskId") int taskId, Model model) {
 		
 	    // タスクIDに基づいてタスクを取得
 		TaskForm taskForm = taskService.getTask(taskId);
@@ -163,7 +165,7 @@ public class TaskController {
 	 * @return "redirect:/task/complete" - タスク確認画面へのリダイレクト
 	 */
 	@PostMapping(value = "/task/delete")
-	public String deleteTask(@PathVariable int taskId, RedirectAttributes redirectAttributes,Model model) {
+	public String deleteTask(@RequestParam("taskId") int taskId, RedirectAttributes redirectAttributes,Model model) {
 		
 		//保存処理
 		String completeMessage =taskService.delete(taskId);

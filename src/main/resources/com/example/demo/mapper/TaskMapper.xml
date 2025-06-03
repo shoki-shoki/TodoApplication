@@ -9,12 +9,12 @@
         SELECT * FROM task where deleteFlg = 0;
     </select>
     
-    <!-- 新規タスクの登録 -->
+    <!-- 新規タスクの登録 priorty, #{priorty}, -->
     <insert id="save">
         INSERT INTO task
-            (title, description, priorty, deadline, status,created_at,updated_at, deleteFlg)
+            (title, description, deadline, status,created_at,updated_at, deleteFlg)
         VALUES
-            (#{title}, #{description}, #{priorty}, #{deadline}, 1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,0);
+            (#{title}, #{description}, #{deadline}, 1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,0);
     </insert>
     
         <!-- タスクIDを指定してタスクを取得 -->
@@ -27,9 +27,9 @@
 	   DELETE FROM task where taskId = #{taskId} and deleteFlg = 0;
    </delete>
    
-      <!-- タスクの更新 -->
+      <!-- タスクの更新  priorty = #{priorty} -->
    <update id="update" parameterType="com.example.demo.entity.Task">
-	   UPDATE task SET title = #{title}, description = #{description}, priorty = #{priorty}, deadline = #{deadline},status = #{status}, updated_at = CURRENT_TIMESTAMP WHERE taskId = #{taskId} and updated_at = #{updatedAt}; 
+	   UPDATE task SET title = #{title}, description = #{description}, deadline = #{deadline},status = #{status}, updated_at = CURRENT_TIMESTAMP WHERE taskId = #{taskId} and updated_at = #{updatedAt}; 
    </update>
     
 </mapper>

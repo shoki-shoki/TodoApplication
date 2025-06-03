@@ -22,14 +22,16 @@ public class Task {
     private String description;
     
     /**
-     * タスクの優先度。
-     */
-    private int priority;
-
-    /**
      * タスクの締め切り日時。
      */
     private LocalDateTime deadline;
+    
+    /**
+     * タスク優先度
+     */
+    
+    /**private int priority;
+     */
 
     /**
      * タスクのステータス（例: 1 - 未着手, 2 - 作業中, 3 - 完了）。
@@ -80,13 +82,6 @@ public class Task {
         this.description = description;
     }
     
-    public int getPriority() {
-        return priority;
-     }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
 
     public LocalDateTime getDeadline() {
         return deadline;
@@ -95,6 +90,14 @@ public class Task {
     public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
+    
+    /**public int getPriority() {
+        return priority;
+     }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }*/
 
     public int getStatus() {
         return status;
