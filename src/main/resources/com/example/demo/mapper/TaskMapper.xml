@@ -8,6 +8,14 @@
     <select id="findAll" resultType="com.example.demo.entity.Task">
         SELECT * FROM task WHERE deleteFlg = 0;
     </select>
+    
+    
+    <select id="findAllSorted" resultType="com.example.demo.entity.Task">
+    SELECT * FROM task 
+    WHERE deleteFlg = 0 
+    ORDER BY ${sortColumn} ${sortOrder}
+</select>
+
 
     <!-- 新規タスクの登録 (priorityを追加) -->
     <insert id="save">

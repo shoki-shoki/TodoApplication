@@ -28,18 +28,36 @@
             <table class="table table-striped">
                 <thead>
                   <tr>
-                    <!-- <th scope="col">#</th> -->
-                    <th scope="col">Title</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Deadline</th>
-                    <th scope="col">Priority</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">
+                      <a th:href="@{/task/list(sortColumn='title', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'})}">
+                        Title <span th:text="${sortColumn == 'title' ? (sortOrder == 'ASC' ? '▲' : '▼') : ''}"></span>
+                      </a>
+                    </th>
+                    <th scope="col">
+                      <a th:href="@{/task/list(sortColumn='description', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'})}">
+                        Description <span th:text="${sortColumn == 'description' ? (sortOrder == 'ASC' ? '▲' : '▼') : ''}"></span>
+                      </a>
+                    </th>
+                    <th scope="col">
+                      <a th:href="@{/task/list(sortColumn='deadline', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'})}">
+                        Deadline <span th:text="${sortColumn == 'deadline' ? (sortOrder == 'ASC' ? '▲' : '▼') : ''}"></span>
+                      </a>
+                    </th>
+                    <th scope="col">
+                      <a th:href="@{/task/list(sortColumn='priority', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'})}">
+                        Priority <span th:text="${sortColumn == 'priority' ? (sortOrder == 'ASC' ? '▲' : '▼') : ''}"></span>
+                      </a>
+                    </th>
+                    <th scope="col">
+                      <a th:href="@{/task/list(sortColumn='status', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'})}">
+                        Status <span th:text="${sortColumn == 'status' ? (sortOrder == 'ASC' ? '▲' : '▼') : ''}"></span>
+                      </a>
+                    </th>
                     <th scope="col">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr th:each="taskList : ${taskList}" th:object="${taskList}">
-                    <!-- <th scope="row" th:text="*{taskId}">1</th> -->
                     <td th:text="*{title}">Title</td>
                     <td th:text="*{description}">Description</td>
                     <td th:text="${#temporals.format(taskList.deadline, 'yyyy/MM/dd HH:mm')}">Formatted Deadline</td>
