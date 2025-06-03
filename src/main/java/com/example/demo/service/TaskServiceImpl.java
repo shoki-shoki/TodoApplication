@@ -125,7 +125,7 @@ public class TaskServiceImpl implements TaskService{
 	    task.setTitle(taskForm.getTitle());
 	    task.setDescription(taskForm.getDescription());
 	    task.setDeadline(taskForm.getDeadline());
-	    /**task.setPriority(taskForm.getPriority());*/
+	    task.setPriority(taskForm.getPriority()); // priority をセット
 	    task.setStatus(taskForm.getStatus());
 	    task.setUpdatedAt(taskForm.getUpdatedAt());
 	    return task;
@@ -145,7 +145,7 @@ public class TaskServiceImpl implements TaskService{
 	    taskForm.setTitle(task.getTitle());
 	    taskForm.setDescription(task.getDescription());
 	    taskForm.setDeadline(task.getDeadline());
-	    /*taskForm.setPriority(task.getPriority());*/
+	    taskForm.setPriority(task.getPriority()); // priority を反映
 	    taskForm.setStatus(task.getStatus());
 	    taskForm.setUpdatedAt(task.getUpdatedAt());
 	    return taskForm;
