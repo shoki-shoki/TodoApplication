@@ -20,6 +20,11 @@ public class TaskForm {
 	// 説明は最大200文字
 	@Size(max = 200)
     private String description;
+	
+	// 優先度は1～3
+	@Min(value = 1)
+	@Max(value = 3)
+    private int priority;
     
 	// デッドラインは必須項目
 	@NotNull
@@ -57,6 +62,14 @@ public class TaskForm {
 		this.description = description;
 	}
 	
+    public int getPriority() {
+        return priority;
+     }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+	
 	public int getStatus() {
 		return status;
 	}
@@ -80,5 +93,7 @@ public class TaskForm {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+
 }
 

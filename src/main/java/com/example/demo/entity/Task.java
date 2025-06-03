@@ -20,6 +20,11 @@ public class Task {
      * タスクの説明。
      */
     private String description;
+    
+    /**
+     * タスクの優先度。
+     */
+    private int priority;
 
     /**
      * タスクの締め切り日時。
@@ -74,6 +79,14 @@ public class Task {
     public void setDescription(String description) {
         this.description = description;
     }
+    
+    public int getPriority() {
+        return priority;
+     }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
 
     public LocalDateTime getDeadline() {
         return deadline;
@@ -122,5 +135,7 @@ public class Task {
     public void setDeleteFlg(Boolean deleteFlg) {
         this.deleteFlg = deleteFlg;
     }
+        
+
 }
 

@@ -27,6 +27,10 @@
                 <label>Description</label>
                 <p th:text="${taskForm.description}">description</p>
             </div>
+			<div class="mb-3" th:if="${taskForm.taskId} !=0">
+			    <label>Priority</label>
+			    <p th:text="${taskForm.priority == 1 ? '高優先' : taskForm.priority == 2 ? '中優先' : '低優先'}">Priority</p>
+			</div>
             <div class="mb-3">
                 <label>Deadline</label>
                 <p th:text="${#temporals.format(taskForm.deadline, 'yyyy/MM/dd HH:mm')}">Formatted Deadline</p>  
@@ -41,6 +45,7 @@
             <form th:action="@{/task/save}" method="post" th:object="${taskForm}"class="mb-3">
                 <input type="hidden" name="title" th:field="*{title}">
                 <input type="hidden" name="description" th:field="*{description}">
+				<input type="hidden" name="priority" th:field="*{priority}">
                 <input type="hidden" name="deadline" th:field="*{deadline}">
                 <input type="hidden" name="taskId" th:field="*{taskId}">
                 <input type="hidden" name="status" th:field="*{status}">
@@ -51,6 +56,7 @@
             <form th:action="@{/task/back}" method="get" th:object="${taskForm}">
 				<input type="hidden" name="title" th:field="*{title}">
     			<input type="hidden" name="description" th:field="*{description}">
+				<input type="hidden" name="priority" th:field="*{priority}">
     			<input type="hidden" name="deadline" th:field="*{deadline}">
     			<input type="hidden" name="taskId" th:field="*{taskId}">
     			<input type="hidden" name="status" th:field="*{status}">
