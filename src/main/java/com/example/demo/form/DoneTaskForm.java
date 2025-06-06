@@ -1,0 +1,111 @@
+package com.example.demo.form;
+
+import java.time.LocalDateTime;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
+/**
+ * 完了済みタスクのフォームデータクラス
+ * 完了済みタスクの編集や表示に使用される
+ */
+public class DoneTaskForm {
+    // タスクID
+    private int taskId;
+
+    // タイトルは1文字以上100文字以下
+    @NotBlank
+    @Size(min = 1, max = 100)
+    private String title;
+
+    // 説明は最大200文字
+    @Size(max = 200)
+    private String description;
+
+    // デッドラインは必須項目
+    @NotNull
+    private LocalDateTime deadline;
+
+    // 優先度は1～3
+    @Min(value = 1)
+    @Max(value = 3)
+    private int priority;
+
+    // ステータスは3（完了済み）のみ
+    @Min(value = 3)
+    @Max(value = 3)
+    private int status;
+
+    // 完了日時（完了タスク特有のフィールド）
+    private LocalDateTime completedAt;
+
+    // 更新日時
+    private LocalDateTime updatedAt;
+
+    // Getter & Setter
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDateTime getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getCompletedAt() {
+        return completedAt;
+    }
+
+    public void setCompletedAt(LocalDateTime completedAt) {
+        this.completedAt = completedAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+}

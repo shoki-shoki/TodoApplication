@@ -9,8 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -38,15 +36,15 @@ public class TaskController {
      * @return "task/index" - タスク一覧表示用のHTMLテンプレートのパス
      */
     @GetMapping("/task/list")
-    public String showTaskList(@RequestParam(required = false, defaultValue = "priority") String sortColumn,
-                               @RequestParam(required = false, defaultValue = "DESC") String sortOrder,
+    public String showTaskList(@RequestParam(required = false, defaultValue = "deadline") String sortColumn,
+                               @RequestParam(required = false, defaultValue = "ASC") String sortOrder,
                                Model model) {
         // 対応するカラムのリスト (セキュリティのためホワイトリスト化)
         List<String> validColumns = List.of("title", "description", "deadline", "priority", "status");
 
         // 不正なカラム名を防ぐ
         if (!validColumns.contains(sortColumn)) {
-            sortColumn = "priority"; // デフォルトのソートカラム
+            sortColumn = "deadline"; // デフォルトのソートカラム
         }
 
         // タスク一覧を取得 (ソート適用)
@@ -143,4 +141,30 @@ public class TaskController {
         model.addAttribute("taskForm", taskForm);
         return "task/edit";
     }
+    
+    /**完了済タスクを表示*/
+    
+    @GetMapping("/task/donetask")
+    public String showDoneTaskList(@RequestParam(required = false, defaultValue = "title") String sortColumn,
+                               @RequestParam(required = false, defaultValue = "DESC") String sortOrder,
+                               Model model) {
+        // 対応するカラムのリスト (セキュリティのためホワイトリスト化)
+        List<String> validColumns = List.of("title", "description", "deadline", "priority", "status");
+
+        // 不正なカラム名を防ぐ
+        if (!validColumns.contains(sortColumn)) {
+            sortColumn = "priority"; // デフォルトのソートカラム
+        }
+
+        // タスク一覧を取得 (ソート適用)
+        List<Task> taskList = taskService.findAllSorted(sortColumn, sortOrder);
+
+        model.addAttribute("taskList", taskList);
+        model.addAttribute("sortColumn", sortColumn);
+        model.addAttribute("sortOrder", sortOrder);
+
+        return "task/donetask";
+    }
+    	
+    
 }

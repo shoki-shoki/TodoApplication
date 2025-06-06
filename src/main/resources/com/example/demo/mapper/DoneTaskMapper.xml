@@ -2,16 +2,16 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.mapper.TaskMapper">
+<mapper namespace="com.example.demo.mapper.DoneTaskMapper">
 
     <!-- タスクの全件取得 -->
-    <select id="findAll" resultType="com.example.demo.entity.Task">
-        SELECT * FROM task WHERE deleteFlg = 0;
+    <select id="findAll" resultType="com.example.demo.entity.DoneTask">
+        SELECT * FROM donetask WHERE deleteFlg = 0;
     </select>
     
     
-    <select id="findAllSorted" resultType="com.example.demo.entity.Task">
-    SELECT * FROM task 
+    <select id="findAllSorted" resultType="com.example.demo.entity.DoneTask">
+    SELECT * FROM donetask 
     WHERE deleteFlg = 0 
     ORDER BY ${sortColumn} ${sortOrder}
 	  </select>
@@ -19,25 +19,25 @@
 
     <!-- 新規タスクの登録 -->
     <insert id="save">
-        INSERT INTO task
+        INSERT INTO donetask 
             (title, description, deadline, priority, status, created_at, updated_at, deleteFlg)
         VALUES
             (#{title}, #{description}, #{deadline}, #{priority}, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0);
     </insert>
 
     <!-- タスクIDを指定してタスクを取得 -->
-    <select id="getTask" resultType="com.example.demo.entity.Task">
-        SELECT * FROM task WHERE taskId = #{taskId} AND deleteFlg = 0;
+    <select id="getTask" resultType="com.example.demo.entity.DoneTask">
+        SELECT * FROM donetask  WHERE taskId = #{taskId} AND deleteFlg = 0;
     </select>
 
     <!-- タスクの削除 -->
     <delete id="delete">
-        DELETE FROM task WHERE taskId = #{taskId} AND deleteFlg = 0;
+        DELETE FROM donetask  WHERE taskId = #{taskId} AND deleteFlg = 0;
     </delete>
 
     <!-- タスクの更新 -->
-    <update id="update" parameterType="com.example.demo.entity.Task">
-        UPDATE task 
+    <update id="update" parameterType="com.example.demo.entity.DoneTask">
+        UPDATE donetask  
         SET title = #{title}, 
             description = #{description}, 
             deadline = #{deadline}, 
