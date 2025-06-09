@@ -58,7 +58,7 @@ public class TaskRepository {
     }
 
     /**
-     * タスクを更新します。
+     * タスクを更新します。 
      * @param task 更新するタスク
      * @return 更新された行数
      */

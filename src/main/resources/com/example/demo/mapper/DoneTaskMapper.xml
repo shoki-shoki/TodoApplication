@@ -4,48 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.DoneTaskMapper">
 
-    <!-- タスクの全件取得 -->
-    <select id="findAll" resultType="com.example.demo.entity.DoneTask">
-        SELECT * FROM donetask WHERE deleteFlg = 0;
+    <!-- 完了済みタスクの一覧取得 -->
+    <select id="findAllSortedDonetask" resultType="com.example.demo.entity.DoneTask">
+        SELECT * FROM donetask 
+        ORDER BY ${sortColumn} ${sortOrder}
     </select>
-    
-    
-    <select id="findAllSorted" resultType="com.example.demo.entity.DoneTask">
-    SELECT * FROM donetask 
-    WHERE deleteFlg = 0 
-    ORDER BY ${sortColumn} ${sortOrder}
-	  </select>
 
-
-    <!-- 新規タスクの登録 -->
-    <insert id="save">
-        INSERT INTO donetask 
-            (title, description, deadline, priority, status, created_at, updated_at, deleteFlg)
-        VALUES
-            (#{title}, #{description}, #{deadline}, #{priority}, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0);
+    <!-- 完了済みタスクを未完了に戻す -->
+    <insert id="restoreToTask">
+        INSERT INTO task (title, description, deadline, priority, status, created_at, updated_at, deleteFlg)
+        SELECT title, description, deadline, priority, 1, createdAt, CURRENT_TIMESTAMP, 09
+        FROM donetask WHERE taskId = #{taskId};
+        
+        DELETE FROM donetask WHERE taskId = #{taskId};
     </insert>
-
-    <!-- タスクIDを指定してタスクを取得 -->
-    <select id="getTask" resultType="com.example.demo.entity.DoneTask">
-        SELECT * FROM donetask  WHERE taskId = #{taskId} AND deleteFlg = 0;
-    </select>
-
-    <!-- タスクの削除 -->
-    <delete id="delete">
-        DELETE FROM donetask  WHERE taskId = #{taskId} AND deleteFlg = 0;
-    </delete>
-
-    <!-- タスクの更新 -->
-    <update id="update" parameterType="com.example.demo.entity.DoneTask">
-        UPDATE donetask  
-        SET title = #{title}, 
-            description = #{description}, 
-            deadline = #{deadline}, 
-            priority = #{priority}, 
-            status = #{status}, 
-            updated_at = CURRENT_TIMESTAMP 
-        WHERE taskId = #{taskId} 
-        AND updated_at = #{updatedAt};
-    </update>
 
 </mapper>

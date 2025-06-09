@@ -3,7 +3,7 @@ package com.example.demo.entity;
 import java.time.LocalDateTime;
 
 /**
- * タスクエンティティクラス
+ * 完了済みタスクのエンティティクラス
  */
 public class DoneTask {
     /** タスクID（自動インクリメントされる一意の識別子）。 */
@@ -15,14 +15,11 @@ public class DoneTask {
     /** タスクの説明。 */
     private String description;
 
-    /** タスクの締め切り日時。 */
-    private LocalDateTime deadline;
+    /** タスクの完了日時。 */
+    private LocalDateTime completedAt;
 
-    /** タスク優先度（1〜3） */
+    /** タスク優先度（1〜3）。 */
     private int priority;
-
-    /** タスクのステータス（例: 1 - 未着手, 2 - 作業中, 3 - 完了）。 */
-    private int status;
 
     /** ユーザーID（タスクを所有するユーザーの識別子）。 */
     private Integer userId;
@@ -60,12 +57,12 @@ public class DoneTask {
         this.description = description;
     }
 
-    public LocalDateTime getDeadline() {
-        return deadline;
+    public LocalDateTime getCompletedAt() {
+        return completedAt;
     }
 
-    public void setDeadline(LocalDateTime deadline) {
-        this.deadline = deadline;
+    public void setCompletedAt(LocalDateTime completedAt) {
+        this.completedAt = completedAt;
     }
 
     public int getPriority() {
@@ -74,14 +71,6 @@ public class DoneTask {
 
     public void setPriority(int priority) {
         this.priority = priority;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 
     public Integer getUserId() {

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>List Page</title>
+    <title>Completed Tasks</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
@@ -16,12 +16,7 @@
 
     <div class="container">
         <div class="px-4 pt-3 my-3 text-center border-bottom">
-            <h1 class="display-4 fw-bold text-body-emphasis mb-3">ToDo Application</h1>
-            <div class="col-lg-6 mx-auto">
-              <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-                <a type="button" class="btn btn-primary btn-lg px-4 me-sm-3" th:href="@{/task/add}">Create</a>
-              </div>
-            </div>
+            <h1 class="display-4 fw-bold text-body-emphasis mb-3">Completed Tasks</h1>
         </div>
 
         <div class="px-4 pt-2 my-2 text-center">
@@ -29,48 +24,37 @@
                 <thead>
                   <tr>
                     <th scope="col">
-                      <a th:href="@{/task/list(sortColumn='title', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'})}">
+                      <a th:href="@{/donetask/list(sortColumn='title', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'})}">
                         Title <span th:text="${sortColumn == 'title' ? (sortOrder == 'ASC' ? '▲' : '▼') : ''}"></span>
                       </a>
                     </th>
                     <th scope="col">
-                      <a th:href="@{/task/list(sortColumn='description', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'})}">
+                      <a th:href="@{/donetask/list(sortColumn='description', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'})}">
                         Description <span th:text="${sortColumn == 'description' ? (sortOrder == 'ASC' ? '▲' : '▼') : ''}"></span>
                       </a>
                     </th>
                     <th scope="col">
-                      <a th:href="@{/task/list(sortColumn='deadline', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'})}">
-                        Deadline <span th:text="${sortColumn == 'deadline' ? (sortOrder == 'ASC' ? '▲' : '▼') : ''}"></span>
+                      <a th:href="@{/donetask/list(sortColumn='completedAt', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'})}">
+                        Completed At <span th:text="${sortColumn == 'completedAt' ? (sortOrder == 'ASC' ? '▲' : '▼') : ''}"></span>
                       </a>
                     </th>
-                    <th scope="col">
-                      <a th:href="@{/task/list(sortColumn='priority', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'})}">
-                        Priority <span th:text="${sortColumn == 'priority' ? (sortOrder == 'ASC' ? '▲' : '▼') : ''}"></span>
-                      </a>
-                    </th>
-                    <th scope="col">
-                      <a th:href="@{/task/list(sortColumn='status', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'})}">
-                        Status <span th:text="${sortColumn == 'status' ? (sortOrder == 'ASC' ? '▲' : '▼') : ''}"></span>
-                      </a>
-                    </th>
+                    <th scope="col">Priority</th>
                     <th scope="col">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr th:each="taskList : ${taskList}" th:object="${taskList}">
+                  <tr th:each="donetask : ${donetaskList}" th:object="${donetask}">
                     <td th:text="*{title}">Title</td>
                     <td th:text="*{description}">Description</td>
-                    <td th:text="${#temporals.format(taskList.deadline, 'yyyy/MM/dd HH:mm')}">Formatted Deadline</td>
+                    <td th:text="${#temporals.format(donetask.completedAt, 'yyyy/MM/dd HH:mm')}">Completed Date</td>
                     <td th:text="*{priority != null ? (priority == 1 ? '最優先' : priority == 2 ? '中優先' : '低優先') : '未設定'}">Priority</td>
-                    <td th:text="*{status == 1 ? '未着手' : status == 2 ? '作業中' : '完了'}">Status</td>
                     <td>
-                        <a class="btn btn-primary" th:href="@{/task/edit(taskId=${taskList.taskId})}">Edit</a>
-                        <a class="btn btn-danger" th:href="@{/task/delete(taskId=${taskList.taskId})}">Delete</a>
+                        <a class="btn btn-warning" th:href="@{/donetask/restore(taskId=${donetask.taskId})}">未完了に戻す</a>
                     </td>
                   </tr>
                 </tbody>
               </table>
-			  <a href="/task/list" class="btn btn-secondary">task</a>
+              <a href="/task/list" class="btn btn-secondary">未完了タスク一覧へ</a>
         </div>
     </div>
 
