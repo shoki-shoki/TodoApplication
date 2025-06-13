@@ -24,8 +24,10 @@ public class DoneTaskRepository {
         return doneTaskMapper.findAllSortedDoneTask(sortColumn, sortOrder);
     }
     
+    
     public void restoreToTask(int taskId) {
-        doneTaskMapper.restoreToTask(taskId); 
+        doneTaskMapper.insertToTask(taskId); 
+        doneTaskMapper.delete(taskId);
     }
 
     

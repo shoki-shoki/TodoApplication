@@ -10,12 +10,6 @@ import com.example.demo.entity.Task;
  */
 @Mapper
 public interface TaskMapper {
-    
-    /** 
-     * 全てのタスクを取得します。 
-     * @return タスクのリスト 
-     */ 
-    List<Task> findAll();
 
     /** 
      * ソート機能付きのタスク一覧を取得します。 
@@ -51,4 +45,6 @@ public interface TaskMapper {
      * @return 削除された行数 
      */ 
     int delete(int taskId);
+    
+    void insertToDoneTask(@Param("taskId") int taskId);
 }

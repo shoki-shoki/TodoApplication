@@ -23,14 +23,6 @@ public class TaskRepository {
     }
 
     /**
-     * 全てのタスクを取得します。
-     * @return タスクのリスト
-     */
-    public List<Task> findAll() {
-        return taskMapper.findAll();
-    }
-
-    /**
      * ソート機能付きのタスク一覧を取得します。
      * @param sortColumn ソート対象のカラム名（例：priority, deadline, title, status）
      * @param sortOrder ソート順（ASC or DESC）
@@ -73,5 +65,10 @@ public class TaskRepository {
      */
     public int delete(int taskId) {
         return taskMapper.delete(taskId);
+    }
+
+    public void moveToDoneTask(int taskId) {
+        taskMapper.insertToDoneTask(taskId); 
+        
     }
 }

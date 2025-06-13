@@ -38,14 +38,7 @@ public class DoneTaskServiceImpl implements DoneTaskService {
         return doneTaskRepository.findAllSortedDoneTask(sortColumn, sortOrder);
     }
 
-    /**
-     * タスク一覧を取得。
-     * @return 全タスクのリスト
-     */
-    @Override
-    public List<DoneTask> findAll() {
-        return doneTaskRepository.findAll();
-    }
+    
 
     @Override
     public void restoreToTask(int taskId) {

@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import java.util.List;
-
 import com.example.demo.entity.Task;
 import com.example.demo.form.TaskForm;
 
@@ -9,9 +8,6 @@ import com.example.demo.form.TaskForm;
  * タスク関連のサービスを提供するインターフェースです。
  */
 public interface TaskService {
-    
-    /** すべてのタスクを取得します。 */
-    List<Task> findAll();
 
     /** ソート機能付きのタスク一覧を取得します。 */
     List<Task> findAllSorted(String sortColumn, String sortOrder);
@@ -30,4 +26,5 @@ public interface TaskService {
 
     /** タスクエンティティをタスクのフォームデータに変換します。 */
     TaskForm convertToTaskForm(Task task);
+
 }

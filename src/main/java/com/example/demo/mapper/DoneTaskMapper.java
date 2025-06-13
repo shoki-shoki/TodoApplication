@@ -27,13 +27,15 @@ public interface DoneTaskMapper {
      */ 
     List<DoneTask> findAllSortedDoneTask(@Param("sortColumn") String sortColumn, @Param("sortOrder") String sortOrder);
     
+    
 
     /** 
      * 完了済みタスクを未完了タスクに戻します。
      * @param taskId 戻すタスクID
      */
-    void restoreToTask(@Param("taskId") int taskId);
+    void insertToTask(@Param("taskId") int taskId);
 
+    int delete(int taskId);
     
     
 }

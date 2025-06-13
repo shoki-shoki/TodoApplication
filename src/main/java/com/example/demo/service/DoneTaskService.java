@@ -9,8 +9,6 @@ import com.example.demo.entity.DoneTask;
  */
 public interface DoneTaskService {
     
-    /** すべてのタスクを取得します。 */
-    List<DoneTask> findAll();
 
     /** ソート機能付きのタスク一覧を取得します。 */
     List<DoneTask> findAllSortedDoneTask(String sortColumn, String sortOrder);

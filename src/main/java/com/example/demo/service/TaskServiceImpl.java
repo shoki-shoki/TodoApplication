@@ -32,20 +32,22 @@ public class TaskServiceImpl implements TaskService {
 
         // 不正なカラム名を防ぐ
         if (!validColumns.contains(sortColumn)) {
-            sortColumn = "priority"; // デフォルトのソートカラム
+            sortColumn = "deadline";
         }
 
-        return taskRepository.findAllSorted(sortColumn, sortOrder);
-    }
+        List<Task> taskList = taskRepository.findAllSorted(sortColumn, sortOrder);
 
-    /**
-     * タスク一覧を取得。
-     * @return 全タスクのリスト
-     */
-    @Override
-    public List<Task> findAll() {
-        return taskRepository.findAll();
+        // ✅ `status == 3` のタスクを `donetask` に移動＆削除！
+        for (Task task : taskList) {
+            if (task.getStatus() == 3) {
+                taskRepository.moveToDoneTask(task.getTaskId()); // ✅ `donetask` に移動！
+            }
+        }
+
+        return taskRepository.findAllSorted(sortColumn, sortOrder); //
     }
+        
+
 
     /**
      * 指定されたIDのタスクを取得。
