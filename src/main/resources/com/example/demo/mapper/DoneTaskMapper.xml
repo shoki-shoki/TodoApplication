@@ -12,15 +12,14 @@
     	
 
     <!-- 完了済タスクを未完了に戻す -->
-    <insert id="insertToTask">
-        INSERT INTO task (title, description, deadline, priority, status, created_at, updated_at, deleteFlg)
-        SELECT title, description, deadline, priority, 1, createdAt, CURRENT_TIMESTAMP, 09
-        FROM donetask WHERE taskId = #{taskId};
-    </insert>
-    
-        <!-- タスクの削除 -->
-    <delete id="delete">
-        DELETE FROM donetask WHERE taskId = #{taskId} AND deleteFlg = 0;
-    </delete>
+<insert id="insertToTask">
+    INSERT INTO task (title, description, deadline, priority, status, created_at, updated_at, deleteFlg)
+    SELECT title, description, deadline, priority, 1, created_at, CURRENT_TIMESTAMP, 0
+    FROM donetask WHERE taskId = #{taskId};
+</insert>
+
+<delete id="delete">
+    DELETE FROM donetask WHERE taskId = #{taskId} AND deleteFlg = 0;
+</delete>
 
 </mapper>

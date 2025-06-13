@@ -33,23 +33,17 @@
                         Description <span th:text="${sortColumn == 'description' ? (sortOrder == 'ASC' ? '▲' : '▼') : ''}"></span>
                       </a>
                     </th>
-                    <th scope="col">
-                      <a th:href="@{/donetask/list(sortColumn='completedAt', sortOrder=${sortOrder == 'ASC' ? 'DESC' : 'ASC'})}">
-                        Completed At <span th:text="${sortColumn == 'completedAt' ? (sortOrder == 'ASC' ? '▲' : '▼') : ''}"></span>
-                      </a>
-                    </th>
                     <th scope="col">Priority</th>
                     <th scope="col">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr th:each="donetask : ${donetaskList}" th:object="${donetask}">
+                  <tr th:each="donetask : ${doneTaskList}" th:object="${donetask}">
                     <td th:text="*{title}">Title</td>
                     <td th:text="*{description}">Description</td>
-                    <td th:text="${#temporals.format(donetask.completedAt, 'yyyy/MM/dd HH:mm')}">Completed Date</td>
                     <td th:text="*{priority != null ? (priority == 1 ? '最優先' : priority == 2 ? '中優先' : '低優先') : '未設定'}">Priority</td>
                     <td>
-                        <a class="btn btn-warning" th:href="@{/donetask/restore(taskId=${donetask.taskId})}">未完了に戻す</a>
+                        <a class="btn btn-warning" th:href="@{/donetask/restore/{taskId}(taskId=${donetask.taskId})}">未完了に戻す</a>
                     </td>
                   </tr>
                 </tbody>

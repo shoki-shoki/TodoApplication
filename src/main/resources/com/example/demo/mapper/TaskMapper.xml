@@ -45,10 +45,10 @@
     
     
         <!-- 完了したタスクを完了済タスクへ移動 -->
-    <insert id="insertToDoneTask">
-    	INSERT INTO donetask (title, description, deadline, priority, status, created_at, updated_at, deleteFlg)
-        SELECT title, description, deadline, priority, 1, createdAt, CURRENT_TIMESTAMP, 09
-        FROM task WHERE taskId = #{taskId};
-    </insert>
+<insert id="insertToDoneTask">
+    INSERT INTO donetask (title, description, deadline, priority, status, created_at, updated_at, deleteFlg)
+    SELECT title, description, deadline, priority, 3, created_at, CURRENT_TIMESTAMP, 0
+    FROM task WHERE taskId = #{taskId};
+</insert>
 
 </mapper>

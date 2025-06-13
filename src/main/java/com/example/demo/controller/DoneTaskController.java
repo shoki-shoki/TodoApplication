@@ -57,20 +57,17 @@ public class DoneTaskController {
     }
 
     
-    @GetMapping("/restore/{taskId}")
+    @GetMapping("/donetask/restore/{taskId}")
     public String restoreToTask(@PathVariable int taskId, 
                                 @RequestParam(required = false, defaultValue = "deadline") String sortColumn,
                                 @RequestParam(required = false, defaultValue = "ASC") String sortOrder, 
                                 Model model) {
-        doneTaskService.restoreToTask(taskId); // ✅ タスクを復元！
-
-        // ✅ 最新のタスク一覧を取得（ソート付き）
+        doneTaskService.restoreToTask(taskId); // タスクを復元
         List<DoneTask> updatedDoneTaskList = doneTaskService.findAllSortedDoneTask(sortColumn, sortOrder);
-        model.addAttribute("donetaskList", updatedDoneTaskList);
+        model.addAttribute("doneTaskList", updatedDoneTaskList);
         model.addAttribute("sortColumn", sortColumn);
         model.addAttribute("sortOrder", sortOrder);
-
-        return "doneTaskList"; // ✅ 画面遷移なしでリストを更新！
+        return "task/donetask"; // テンプレート名。実際のファイルパスに合わせてください
     }
     	
     	

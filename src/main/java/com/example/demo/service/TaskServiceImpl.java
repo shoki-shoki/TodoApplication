@@ -40,7 +40,8 @@ public class TaskServiceImpl implements TaskService {
         // ✅ `status == 3` のタスクを `donetask` に移動＆削除！
         for (Task task : taskList) {
             if (task.getStatus() == 3) {
-                taskRepository.moveToDoneTask(task.getTaskId()); // ✅ `donetask` に移動！
+                taskRepository.moveToDoneTask(task.getTaskId()); // donetaskへINSERT
+                taskRepository.delete(task.getTaskId());          // taskテーブルから削除
             }
         }
 
