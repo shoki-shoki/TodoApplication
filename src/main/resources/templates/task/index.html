@@ -19,10 +19,10 @@
 	    <div class="collapse navbar-collapse" id="navbarNav">
 	      <ul class="navbar-nav">
 	        <li class="nav-item">
-	          <a class="nav-link active" aria-current="page" href="/task/list">Task</a>
+	          <a class="nav-link active text-decoration-underline" aria-current="page" href="/task/list">Task</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="#">Manual</a>
+	          <a class="nav-link text-decoration-underline" href="#">Manual</a>
 	      </ul>
 	    </div>
 	  </div>
@@ -30,10 +30,11 @@
 	
 
     <div class="container">
-        <div class="px-4 pt-3 my-3 text-center border-bottom">
-			<p class="text-center text-white fs-1">Task List</p>
-              <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-                <a type="button" class="btn btn-primary btn-lg px-4 me-sm-3" th:href="@{/task/add}">Create</a>
+        <div class=" text-center " style="margin-top:5rem;">
+			<p class="fw-light text-center text-white fs-1 ">Task List</p>
+              <div class="d-flex justify-content-center gap-3 mb-5">
+                <a type="button" class="btn btn-outline-dark btn-lg px-4 me-sm-3" th:href="@{/task/add}">Create</a>
+				<a type="button" class="btn btn-outline-dark btn-lg px-4 me-sm-3" th:href="@{/donetask/list}">Donetask</a>
 
         </div>
 
@@ -85,7 +86,6 @@
                   </tr>
                 </tbody>
               </table>
-			  <a href="/donetask/list" class="btn btn-secondary">DoneTask</a>
         </div>
     </div>
 
