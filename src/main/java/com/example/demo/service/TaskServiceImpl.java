@@ -77,10 +77,10 @@ public class TaskServiceImpl implements TaskService {
             if (updateCount == 0) {
                 throw new OptimisticLockingFailureException("楽観ロックエラー");
             }
-            completeMessage = "タスクを更新しました！";
+            completeMessage = "It's done!";
         } else {
             taskRepository.save(task);
-            completeMessage = "タスクを追加しました！";
+            completeMessage = "It's done!";
         }
         return completeMessage;
     }
@@ -94,7 +94,7 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     public String delete(int taskId) {
         taskRepository.delete(taskId);
-        return "タスクを削除しました！";
+        return "It's done!";
     }
 
     /**
