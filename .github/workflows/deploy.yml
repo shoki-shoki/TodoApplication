@@ -1,46 +1,23 @@
+# Workflowの名前。任意に設定可能
 name: EC2 auto deploy
 
+# アクションが実行されるタイミングを設定。今回はmainブランチにpushされた時。
 on:
-  push:
-    branches:
-      - master
-
+ push:
+   branches:
+     - main
+ 
+#実行される処理
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy
-        run: |
-          echo "${{ secrets.-----BEGIN RSA PRIVATE KEY-----
-MIIEowIBAAKCAQEAphKMTt5teQ5aZCluGsN+ytXR+We+forMgb2V/ElbkcUmN6y/
-QgfWIPJ5Tzs7lm6t7uuPvJooL/p835xb8+Ayru+AN0hJopJZ8AKqgdTtPInQbSAZ
-pbOUVA39SHJ1it+TwSwF79HT9XNyUdH/yD1vMQpEgMKFYo6U3FXaUX5SBJMXOVLo
-4Ch56kDVsbdxaeVU1Lfq/gowKHy6z66mqmbc3wkbiC/xDg6Eg3z03MQu7su/legm
-HFcvLbmTqeYpi7HUHr2EX5O48nOrlPjQadYLH6c3HCpHWxrGUVNksTA7N90BkdMV
-b8bw1G+mJpoQNdWWBwaR7DRXoHlcWJW1Gxm3qwIDAQABAoIBAEtxaaP6j6jKyG1w
-FMC7xsHGWNkANB2wWC8oPRabDKov8aihJVGN1cyp2koQEoXISeObx3RaY59IH6pF
-kdA8LUojKw/yGuFrssfBrkvEuvEhejnYt037QorcwA9FT/iCkNDUeu3zWGLMy0Y4
-LAZ/Qh/5Fh2YQJgBRcbCiaczx3ajz8mDvN83AsvcC5wCJ9e328rBoZPH+nroS4EV
-NbAyohv1IM5AvG7EQ5S5FsVlvHVEscuMt9dagydPvo74J2QwVLQmPcSecU24ZYPK
-rOQjHRx6N1cSaWzzbxY4UNXIrw3ppW1wqf2ZJEBq7S3BGM5DDAaZeKXnC1dMPPzl
-auwcVGECgYEA3I/zrQ1oIhq4Y5nfF4Sz7Yut9D7qOg48qfKOORGffJaAvjAK7+LH
-4i3m8AOcyokZ6uGxv8N0mvl9qg8Ru530nB1+QRKvzUwbEgsPVZFKmq8lw3WRrrCO
-gyUO9IUoYACDMcbd/KvWaN3L4Xq9EVnF8WQstozfd+6irHJjsqM0X00CgYEAwMFZ
-ZoQgQKw4NROQo7C1jV9HsxR6rNnxUMqvWUqzM3HY6Rhup62gPyGk6oyfCRZ5QnSY
-U6uVjCykbApq2gdDLbd6v9GvwvWcgGUBPaIqpEaeYRnWd9vubLUhDdqSJnvkvNli
-nU2hEDjSfzj3HRBO10kRYGHYUd10azzQo8Q5ZtcCgYBPWq9mNKuhkZGDrEm6sXD2
-50lX1gb5ikPDNVR8Ld3+ujtpselNc39M3gz3j6UqrXcYrckA4Hakh1zyAWf045it
-TmMtUGbV6yrWLAqBU7vOuXNRxov6mOU9Q+kEiqADIkwRbaZSkRScOChxYHKDupPg
-DJWVvEtuX/pBJwq9q8BdBQKBgGpC7OcQFbuxdXcFJyqmQyABk8RMmOhraZYxdoNS
-JAJLU9oEpxP3Kq1C/ehzx0S6R/Tz0/nkUJgrECWjhI5XjJhKWvgeP7fJsRIzHID+
-wmU3rR44oTwIWaNCI0vA3+spR8s4SB4R6qXHvXt3SvuRvvT+Cf9JUXioDgMETrzJ
-cx+XAoGBANApz/azDSeyU/cjVn43sHq8Goba6W+eP2F4mq15/lDQhHsO/ajBdKfj
-awr8rR7zxJhDbQeI/iVpdwoD18sAaRwcsgjRrjyS97drYLX0RA7Tn0P4cxDfuJVS
-6Eja2rI99Hvw/u1yEa3xmK/RAlytpBbvYIT7flpONn0rv4QI1P7D
------END RSA PRIVATE KEY----- }}" > private_key
-          chmod 600 private_key
-          ssh -oStrictHostKeyChecking=no ${{ secrets.ec2-user }}@${{ secrets.ec2-35-73-67-105.ap-northeast-1.compute.amazonaws.com }} -i private_key "
-            cd ~/TodoApplication &&
-            git fetch origin &&
-            git pull origin master
-          "
+ build:
+   # 実行環境の指定
+   runs-on: ubuntu-latest
+   steps:
+
+     # デプロイする
+     - name: Deploy
+       run: |
+         # SSH接続して、git pullする
+         echo "${{ secrets.PRIVATE_KEY }}" > private_key
+         chmod 600 private_key
+         ssh -oStrictHostKeyChecking=no ${{ secrets.USER_NAME }}@${{ secrets.HOST_NAME }} -i private_key "cd TodoApplication && git fetch github:shokii-shoki/TodoApplication.git && git pull github:shokii-shoki/TodoApplication.git"
