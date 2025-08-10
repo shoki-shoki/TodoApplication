@@ -3,18 +3,24 @@ name: EC2 auto deploy
 on:
   push:
     branches:
-      - master
+      - master  # ← ここを変更！
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy
+      - name: Deploy to EC2
         run: |
           echo "${{ secrets.PRIVATE_KEY }}" > private_key
           chmod 600 private_key
           ssh -oStrictHostKeyChecking=no ${{ secrets.USER_NAME }}@${{ secrets.HOST_NAME }} -i private_key "
+            # デプロイ先ディレクトリを削除
+            rm -rf /home/ec2-user/TodoApplication
+
+            # masterブランチをクローン
+            git clone --branch master git@github.com:shoki-shoki/TodoApplication.git /home/ec2-user/TodoApplication
+
+            # 必要ならアプリ再起動などの処理を追加
             cd /home/ec2-user/TodoApplication &&
-            git config pull.rebase false &&
-            git pull origin main
+            echo '✅ masterブランチからデプロイ完了'
           "
