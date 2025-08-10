@@ -15,5 +15,6 @@ jobs:
           chmod 600 private_key
           ssh -oStrictHostKeyChecking=no ${{ secrets.USER_NAME }}@${{ secrets.HOST_NAME }} -i private_key "
             cd /home/ec2-user/TodoApplication &&
+            git config pull.rebase false &&
             git pull origin main
           "
