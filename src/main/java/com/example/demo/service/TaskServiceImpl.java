@@ -11,54 +11,49 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * タスク関連のビジネスロジックを担当するサービスクラスです。
- * タスクの検索、保存、更新、削除、およびソート機能を提供します。
- */
+タスク関連のビジネスロジックを担当するサービスクラス。
+*/
+
+
 @Service
 public class TaskServiceImpl implements TaskService {
 
     @Autowired
-    TaskRepository taskRepository;
+    TaskRepository taskRepository;		//taskRepositoryをこのクラスで使えるよにする
 
-    /**
-     * タスク一覧を取得（ソート機能付き）。
-     * @param sortColumn ソート対象のカラム名（例：priority, deadline, title, status）
-     * @param sortOrder ソート順（ASC or DESC）
-     * @return ソート適用済みのタスクリスト
-     */
+    
+    
+    // タスク一覧を取得するメソッド（ソート機能付き）。
+
     @Override
-    public List<Task> findAllSorted(String sortColumn, String sortOrder) {
-        List<String> validColumns = List.of("title", "description", "deadline", "priority", "status");
+    public List<Task> findAllSorted(String sortColumn, String sortOrder) {		//String sortColumn, String sortOrderの値を外から受け取り、このメソッド内で使えるようにする
+        List<String> validColumns = List.of("title", "description", "deadline", "priority", "status");		//有効な項目名（カラム名）をリストにまとめる(不正カラム✓のため)
 
-        // 不正なカラム名を防ぐ
-        if (!validColumns.contains(sortColumn)) {
+        if (!validColumns.contains(sortColumn)) {		//ソート項目に有効なカラム名でないものが指定されたら、deadlineで強制ソート
             sortColumn = "deadline";
         }
 
-        List<Task> taskList = taskRepository.findAllSorted(sortColumn, sortOrder);
+        List<Task> taskList = taskRepository.findAllSorted(sortColumn, sortOrder);		//タスクを1つずつ取得し、Task型のtaskListに格納。Task型(entity)を使うことで、DBから得た値をjavaでそのまま扱える
 
         // ✅ `status == 3` のタスクを `donetask` に移動＆削除！
-        for (Task task : taskList) {
-            if (task.getStatus() == 3) {
-                taskRepository.moveToDoneTask(task.getTaskId()); // donetaskへINSERT
-                taskRepository.delete(task.getTaskId());          // taskテーブルから削除
+        for (Task task : taskList) {		//taskListの値を1つずつ、変数taskに格納
+            if (task.getStatus() == 3) {	//もしtaskのステータスが3だったら下記の処理をする
+                taskRepository.moveToDoneTask(task.getTaskId()); // データをdonetaskてへINSERT
+                taskRepository.delete(task.getTaskId());          // データをtaskテーブルから削除
             }
         }
 
-        return taskRepository.findAllSorted(sortColumn, sortOrder); //
+        return taskRepository.findAllSorted(sortColumn, sortOrder);		//ソート済のタスク一覧の値を返す
     }
         
 
 
-    /**
-     * 指定されたIDのタスクを取得。
-     * @param taskId タスクID
-     * @return タスク情報
-     */
+    // 指定されたIDのタスクを取得するメソッド
+    
     @Override
-    public TaskForm getTask(int taskId) {
-        Task task = taskRepository.getTask(taskId);
-        return convertToTaskForm(task);
+    public TaskForm getTask(int taskId) {		//引数taskIdで指定されたデータをTaskFrorm型で返すメソッド
+        Task task = taskRepository.getTask(taskId);		//指定したtaskIdのデータをTask型の変数taskに格納
+        return convertToTaskForm(task);		//taskデータをTaskForm型に変換し、その値を返す
     }
 
     /**

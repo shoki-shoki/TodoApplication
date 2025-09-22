@@ -9,22 +9,17 @@ import com.example.demo.form.TaskForm;
  */
 public interface TaskService {
 
-    /** ソート機能付きのタスク一覧を取得します。 */
-    List<Task> findAllSorted(String sortColumn, String sortOrder);
 
-    /** 指定されたタスクIDに対応するタスクを取得します。 */
-    TaskForm getTask(int taskId);
+    List<Task> findAllSorted(String sortColumn, String sortOrder);		//タスク一覧を取得するメソッド
 
-    /** タスクを保存します。 */
-    String save(TaskForm taskForm);
+    TaskForm getTask(int taskId);		//指定されたIDに対応するデータをDBから取り出し、TaskFromに変換。指定したtaskIDのデータをクラスやviewで扱えるようになる
 
-    /** タスクを削除します。 */
-    String delete(int taskId);
+    String save(TaskForm taskForm);		//taskFormで入力された情報のタスクを保存するメソッド。
 
-    /** タスクのフォームデータをタスクエンティティに変換します。 */
-    Task convertToTask(TaskForm taskForm);
+    String delete(int taskId);		//指定されたIDのタスクを削除するメソッド
 
-    /** タスクエンティティをタスクのフォームデータに変換します。 */
-    TaskForm convertToTaskForm(Task task);
+    Task convertToTask(TaskForm taskForm);		//TaskFormのデータをEntityデータに変換。これでHTMLで入力された値をDB用に変換し、DBでの操作で使うことができるようになる
+
+    TaskForm convertToTaskForm(Task task);		//EntityのデータをTaskFormデータに変換。DBのデータをTaskForm型にすることで、それらの値をclassやviewで扱えるようになる
 
 }

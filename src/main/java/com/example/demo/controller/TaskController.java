@@ -15,8 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 /**
- * Webアプリケーションのタスク関連機能を担当するControllerクラスです。
- * タスクの一覧表示、登録、変更、ソート機能などの機能が含まれています。
+ * Webアプリケーションのタスク関連機能を担当するControllerクラス。
  */
 @Controller
 public class TaskController {
@@ -27,19 +26,16 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    /**
-     * タスクの一覧を表示するメソッド（ソート機能付き）。
-     * 
-     * @param sortColumn ソート対象のカラム名（例：priority, deadline）
-     * @param sortOrder ソート順（ASC or DESC）
-     * @param model タスク一覧をViewに渡すためのSpringのModelオブジェクト
-     * @return "task/index" - タスク一覧表示用のHTMLテンプレートのパス
-     */
-    @GetMapping("/task/list")
-    public String showTaskList(@RequestParam(required = false, defaultValue = "deadline") String sortColumn,
-                               @RequestParam(required = false, defaultValue = "ASC") String sortOrder,
-                               Model model) {
-        // 対応するカラムのリスト (セキュリティのためホワイトリスト化)
+    
+    
+    
+    //タスクの一覧を表示するメソッド（ソート機能付き）。
+    
+    @GetMapping("/task/list")		//task/listリンクへのアクセスがあった際に実行
+    public String showTaskList(@RequestParam(required = false, defaultValue = "deadline") String sortColumn,		//URL内のsortColumnの値を変数sortColumnに入れる	※メソッドの戻り値の型をstring型にすることで、View(文字の表示ページ)を返せるようにしている
+                               @RequestParam(required = false, defaultValue = "ASC") String sortOrder,				//URL内のsortOrderの値を変数sortOrderに入れる
+                               Model model) {																		//model.addAttributeを使えるようにする
+
         List<String> validColumns = List.of("title", "description", "deadline", "priority", "status");
 
         // 不正なカラム名を防ぐ
@@ -47,99 +43,105 @@ public class TaskController {
             sortColumn = "deadline"; // デフォルトのソートカラム
         }
 
-        // タスク一覧を取得 (ソート適用)
-        List<Task> taskList = taskService.findAllSorted(sortColumn, sortOrder);
+        
+        List<Task> taskList = taskService.findAllSorted(sortColumn, sortOrder);			//タスクを1つずつ取得し、Task型のtaskListに格納。Task型(entity)を使うことで、DBから得た値をjavaでそのまま扱える
 
-        model.addAttribute("taskList", taskList);
-        model.addAttribute("sortColumn", sortColumn);
-        model.addAttribute("sortOrder", sortOrder);
+        model.addAttribute("taskList", taskList);		//taskList内の値をtaskListという名前で、task/index内で扱えるようにする
+        model.addAttribute("sortColumn", sortColumn);	
+        model.addAttribute("sortOrder", sortOrder);		
 
-        return "task/index";
+        return "task/index";	// View名 "task/index" を返す。HTML内では model に追加されたデータ（taskListなど）が使える状態になっている
     }
 
 
-    /**
-     * タスクの新規登録画面を表示するメソッドです。
-     * @param model タスクフォームをViewに渡すためのSpringのModelオブジェクト
-     * @return "task/edit" - タスク新規登録画面のHTMLテンプレートのパス
-     */
-    @GetMapping(value = "/task/add")
-    public String showForm(Model model) {
-        TaskForm taskForm = new TaskForm();
-        model.addAttribute("taskForm", taskForm);
-        return "task/edit";
+    
+    
+    // タスクの新規登録画面を表示するメソッド。
+    
+    @GetMapping(value = "/task/add")		//task/addリンクへのアクセスがあった際に実行
+    public String showForm(Model model) {		//model.addAttributeを使えるようにする
+        TaskForm taskForm = new TaskForm();		//TaskFormのデータをtaskForm変数に格納
+        model.addAttribute("taskForm", taskForm);		//モデルにtaskFromのデータをtaskFormという名前で格納
+        return "task/edit";		//View名　task/edit　を返す。本method内でモデルに格納したデータを扱える
     }
 
-    /**
-     * タスクの変更画面を表示するメソッドです。
-     */
-    @GetMapping(value = "/task/edit")
-    public String showEditForm(@RequestParam("taskId") int taskId, Model model) {
-        TaskForm taskForm = taskService.getTask(taskId);
-        model.addAttribute("taskForm", taskForm);
-        return "task/edit";
+    
+    
+    // タスクの新規登録画面を表示するメソッド。	
+    
+    @GetMapping(value = "/task/edit")		//task/editリンクへのアクセスがあった際に実行
+    public String showEditForm(@RequestParam("taskId") int taskId, Model model) {		//URL内のtaskIdの値をtaskId変数に格納。モデルを使えるようにする
+        TaskForm taskForm = taskService.getTask(taskId);		//tasKForm変数に、指定されたタスクIDのタスク情報を格納
+        model.addAttribute("taskForm", taskForm);		//モデルにtaskFormの値を詰める
+        return "task/edit";		//View名　task/edit　を返す。
     }
 
-    /**
-     * タスクの確認画面を表示するメソッドです。
-     */
-    @GetMapping(value = "/task/confirm")
-    public String showConfirmForm(@Validated TaskForm taskForm, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
+    
+    
+    //タスクの確認画面を表示するメソッド。
+
+    @GetMapping(value = "/task/confirm")		//task//confirmリンクへのアクセスがあった際に実行
+    public String showConfirmForm(@Validated TaskForm taskForm, BindingResult bindingResult, Model model) {		//taskFormの値をバリデーションチェック。結果をbindingResultで保持。モデルを使用できるようにする。
+        if (bindingResult.hasErrors()) {		//バリデーションエラーがあった際、task/editを返す。
             return "task/edit";
         }
-        model.addAttribute("taskForm", taskForm);
-        return "task/confirm";
+        model.addAttribute("taskForm", taskForm);		//バリデーションエラーがなかった際、taskFormの値をモデルに格納。
+        return "task/confirm";		//View名　task/confirm　を返す。
     }
 
-    /**
-     * タスクを保存するメソッドです。
-     */
-    @PostMapping(value = "/task/save")
-    public String saveTask(@Validated TaskForm taskForm, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
-        if (bindingResult.hasErrors()) {
+    
+    
+    //タスクを保存するメソッド。
+    
+    @PostMapping(value = "/task/save")		//保存ボタンを押したら動くメソッド。
+    public String saveTask(@Validated TaskForm taskForm, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {		//taskFormのバリデーションチェック＆保持。リダイレクト変数の宣言とモデル使用可にする
+        if (bindingResult.hasErrors()) {		//バリデーションチェック
             return "task/edit";
         }
-        String completeMessage = taskService.save(taskForm);
-        redirectAttributes.addFlashAttribute("completeMessage", completeMessage);
-        return "redirect:/task/complete";
+        String completeMessage = taskService.save(taskForm);	//taskFormに入力されたデータをservice.saveでDBに保存する処理を行う。そしてその処理結果をstring型のcompeleteMessageに格納する(taskService.saveで返す値がstring型だから、戻り値の方もstring型)
+        redirectAttributes.addFlashAttribute("completeMessage", completeMessage);		//RedirectAttributesが持っているaddFlashAttribute() というメソッドにcompleteMessageの値を「completeMessage」という名前で渡す。
+        return "redirect:/task/complete";		//View名　task/complete　へリダイレクト。リダイレクトを使うことで、再読み込みによる二重保存のリスクを防止する。
     }
 
-    /**
-     * タスク完了画面を表示するメソッドです。
-     */
-    @GetMapping("/task/complete")
-    public String showCompletePage() {
-        return "task/complete";
+    
+    
+    //タスク完了画面を表示するメソッド。
+    
+    @GetMapping("/task/complete")		//task/completeリンクへのアクセスがあった際に実行
+    public String showCompletePage() {		
+        return "task/complete";			//View名　task/complet　eを返す。		
     }
 
-    /**
-     * タスクの削除確認画面を表示するメソッドです。
-     */
-    @GetMapping(value = "/task/delete")
-    public String showDeleteForm(@RequestParam("taskId") int taskId, Model model) {
-        TaskForm taskForm = taskService.getTask(taskId);
-        model.addAttribute("taskForm", taskForm);
-        return "task/deleteConfirm";
+    
+    
+    //タスクの削除確認画面を表示するメソッド。
+     
+    @GetMapping(value = "/task/delete")		//task/deleteリンクへのアクセスがあった際に実行
+    public String showDeleteForm(@RequestParam("taskId") int taskId, Model model) {			//URL内のtaskIdの値をtaskId変数に格納。モデルを使えるようにする
+        TaskForm taskForm = taskService.getTask(taskId);		//tasKForm変数に、指定されたタスクIDのタスク情報を格納
+        model.addAttribute("taskForm", taskForm);		//モデルにtaskFormの値を詰める
+        return "task/deleteConfirm";		//View名　task/deleteConfirm　を返す。	
     }
 
-    /**
-     * タスクを削除するメソッドです。
-     */
-    @PostMapping(value = "/task/delete")
-    public String deleteTask(@RequestParam("taskId") int taskId, RedirectAttributes redirectAttributes, Model model) {
-        String completeMessage = taskService.delete(taskId);
-        redirectAttributes.addFlashAttribute("completeMessage", completeMessage);
-        return "redirect:/task/complete";
+    
+    
+    // タスクを削除するメソッド。
+
+    @PostMapping(value = "/task/delete")		//削除ボタンを押したら動くメソッド。
+    public String deleteTask(@RequestParam("taskId") int taskId, RedirectAttributes redirectAttributes, Model model) {		//URL内のtaskIdの値をtaskId変数に格納。リダイレクト変数の宣言とモデル使用可にする
+        String completeMessage = taskService.delete(taskId);		//指定されたtaskIdのタスクをservice.deleteでDBから削除する処理を行う。そしてその処理結果をstring型のcompeleteMessageに格納する(taskService.saveで返す値がstring型だから、戻り値の方もstring型)
+        redirectAttributes.addFlashAttribute("completeMessage", completeMessage);		//RedirectAttributesが持っているaddFlashAttribute() というメソッドにcompleteMessageの値を「completeMessage」という名前で渡す。
+        return "redirect:/task/complete";		//View名　task/complete　へリダイレクト。リダイレクトを使うことで、再読み込みによる二重保存のリスクを防止する。
     }
 
-    /**
-     * タスクの確認画面から変更画面に戻るメソッドです。
-     */
-    @GetMapping("/task/back")
-    public String backToEditPage(TaskForm taskForm, Model model) {
-        model.addAttribute("taskForm", taskForm);
-        return "task/edit";
+    
+    
+    // タスクの確認画面から変更画面に戻るメソッドです。
+
+    @GetMapping("/task/back")		//task/backリンクへのアクセスがあった際に実行
+    public String backToEditPage(TaskForm taskForm, Model model) {		//taskFormの値およびモデルを使えるようにする
+        model.addAttribute("taskForm", taskForm);		//モデルにtaskFormの値を詰める
+        return "task/edit";		//View名　task/edit　を返す。
     }
     
     
