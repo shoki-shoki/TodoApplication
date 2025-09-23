@@ -56,19 +56,18 @@ public class TaskServiceImpl implements TaskService {
         return convertToTaskForm(task);		//taskデータをTaskForm型に変換し、その値を返す
     }
 
-    /**
-     * タスクを保存。
-     * @param taskForm タスクフォームデータ
-     * @return 完了メッセージ
-     */
+    
+    
+    // タスクを保存するメソッド
+
     @Override
     @Transactional
-    public String save(TaskForm taskForm) {
-        Task task = convertToTask(taskForm);
-        String completeMessage;
+    public String save(TaskForm taskForm) {			//引数taskFormで指定されたデータをString型で返すメソッド
+        Task task = convertToTask(taskForm);		//taskFormをtask型(DBと対応したデータ)に変換し、変数taskに保存
+        String completeMessage;		//完了メッセージを表示
 
-        if (task.getTaskId() != 0) {
-            int updateCount = taskRepository.update(task);
+        if (task.getTaskId() != 0) {		//taskのIdが0でなければ下記を実行
+            int updateCount = taskRepository.update(task);		//
             if (updateCount == 0) {
                 throw new OptimisticLockingFailureException("楽観ロックエラー");
             }

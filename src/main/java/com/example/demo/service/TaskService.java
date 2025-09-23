@@ -5,7 +5,7 @@ import com.example.demo.entity.Task;
 import com.example.demo.form.TaskForm;
 
 /**
- * タスク関連のサービスを提供するインターフェースです。
+ * タスク関連のサービスを提供するインターフェース。
  */
 public interface TaskService {
 
